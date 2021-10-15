@@ -6,109 +6,153 @@ sidebar: auto
 
 ## TEMPLATE Navbar
 
-En componentes **Navbar** añadimos los enlaces:
+### Botones modales
 
-Vue.js [router-link](https://es.vuejs.org/v2/guide/migration-vue-router.html#v-link-reemplazado)
+En componentes **Navbar** añadimos los botones para abrir los modales después de </form>:
 
 ```html
-<router-link class="btn btn-outline-primary me-2" to ="/login">Login</router-link>
-<button class="btn btn-outline-primary me-2"   @click="signout">Salir</button>
-<router-link class="btn btn-outline-danger me-2"  to ="/registro">Registro</router-link>
+ <!-- Después de la etiqueta </form> --> 
+ <!-- Iniciar sesión --> 
+<button type="button" class="btn btn-outline-primary mx-2" 
+  data-bs-toggle="modal" 
+  data-bs-target="#login">
+  Iniciar sesión
+</button> 
+ <!-- Cerrar sesión -->   
+<button class="btn btn-outline-danger me-2"
+  data-bs-toggle="modal" 
+  data-bs-target="#login"
+  @click="signout">Cerrar sesión
+</button>
+ <!-- Regístrate --> 
+<button type="button" 
+  class="btn btn-outline-warning" 
+  data-bs-toggle="modal" 
+  data-bs-target="#registro"><!-- inicia modal con id="registro" --> 
+  Regístrate
+</button> 
 ```
-## SCRIPT Navbar Cerrar sesión
+### Modal Regístrate
 
-El **script** para el botón **Salir**
-
-```js
-<script>
-import { signOut } from "firebase/auth";
-import { auth } from "../main";
-
-export default {
-  name: 'Navbar',
-   methods: {
-     signout () {
-      signOut(auth).then(() => {
-        alert('¡Sesión cerrada! Inicia sesión.');
-        this.$router.push('/login');
-        // Sign-out successful.
-      }).catch((error) => {
-        // An error happened.
-      });
-     }
-   },
-}
-</script>
-```
-
-
-## TEMPLATE registro
-
-Comencemos creando un formulario con:
+Crea un formulario con:
 - Correo electrónico
 - Contraseña
 - Repita la contraseña
 - Botón de envío
 
-Observa que para validar el correo utilizo **type="email"** y para la contraseña **type="password"**. Añado la obligatoridad de requerir todos los campos para poder enviar el formulario y también valido que los campos contraseña coincidan **:disabled="!desactivar"** en **computed:**.
-
 ```html
-<template>
-    <div>
-        <Navbar/>
-        <div class="container my-4">
-  <form @submit.prevent="register( this.email, this.password )">  
-    <div class="input-group mb-3">
-    <span class="input-group-text">Correo</span>
-    <input v-model="email" 
-            type="email"
-            required="true"
-            class="form-control">
+<!-- //// Modal - Registrarse //// -->
+<div class="modal fade" id="registro">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Regístrate</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form @submit.prevent="register( this.email, this.password )">  
+           <!-- CORREO -->
+          <div class="input-group mb-3">
+          <span class="input-group-text">Correo</span>
+          <input v-model="email" 
+                  type="email"
+                  required="true"
+                  class="form-control">
+          </div>
+          <!-- PASSWORD -->
+          <div class="input-group mb-3">
+          <span class="input-group-text">Password</span>
+          <input v-model="password" 
+                  type="password"
+                  required="true" 
+                  class="form-control">
+          </div>
+          <!-- REPASSWORD -->
+          <div class="input-group mb-3">
+          <span class="input-group-text">Repite Password</span>
+          <input v-model="repassword" 
+                  type="password"
+                  required="true" 
+                  class="form-control">
+          </div>
+          <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Registrar</button>
+          </div>
+        </form>
+      </div>
     </div>
-    <!-- Familia -->
-    <div class="input-group mb-3">
-    <span class="input-group-text">Password</span>
-    <input v-model="password" 
-            type="password"
-            required="true" 
-            class="form-control">
-    </div>
-    <!-- Descripción -->
-    <div class="input-group mb-3">
-    <span class="input-group-text">Repite Password</span>
-    <input v-model="repassword" 
-            type="password"
-            required="true" 
-            class="form-control">
-    </div>
-    <button type="submit" :disabled="!desactivar" class="btn btn-primary">Registrar
-    </button>
-  </form>
-    <p>email {{ email }}</p>
-  </div> 
-    </div>
-</template>
+  </div>
+</div>
 ```
 
-## SCRIPT registro
+### Modal iniciar sesión
+
+Crea un formulario con:
+- Correo electrónico
+- Contraseña
+- Botón de envío
+
+```html
+<!-- //// Modal - Iniciar sesión //// -->
+<div class="modal fade" id="login">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Inicia de sesión</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form @submit.prevent="login( this.email, this.password )">
+          <!-- CORREO --> 
+          <div class="input-group mb-3">
+          <span class="input-group-text">Correo</span>
+          <input v-model="email" 
+                  type="email"
+                  required="true"
+                  class="form-control">
+          </div>
+          <!-- PASSWORD --> 
+          <div class="input-group mb-3">
+          <span class="input-group-text">Password</span>
+          <input v-model="password" 
+                  type="password"
+                  required="true" 
+                  class="form-control">
+          </div>
+          <div class="d-grid gap-2">
+            <button type="submit" 
+              class="btn btn-primary" 
+              data-bs-dismiss="modal"><!-- Cierra el modal --> 
+              Iniciar sesión
+            </button>
+          </div>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+## SCRIPT Navbar 
+
+### Iniciar sesión, cerrar sesión y registrase
 
 - Importamos **auth** de **firebase**
 - Creamos los datos **email** y **password**
-- Función de crear usuario con email y password
+- Función register(), login() y logout()
 
 ```js
 <script>
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../main"
-
-import Navbar from "../components/Navbar.vue";
+import { 
+  getAuth,
+  signOut,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword
+  } from "firebase/auth";
 
 export default {
-    name: 'Registro',
-    components: {
-        Navbar,
-    },
-    data() {
+  name: 'Navbar',
+   data() {
         return {
             email: '',
             password: '',
@@ -116,120 +160,175 @@ export default {
             errorMessage: ''
         };
     },
-    methods: {
-        register(email, password) {
-            createUserWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                // Signed in
-                const user = userCredential.user;
-                alert('¡Registrado!');
-                // ...
-            })
-            .catch((error) => {
-                const errorCode = error.code;
-                this.errorMessage = error.message;
-                alert(this.errorMessage);
-                // ..
-            });
-        },        
-    },
-    computed: {
-        desactivar(){
-            return this.password === this.repassword
-        }
-    }
-}
-</script>
-```
-## Enviar a una nueva página
-
-Una vez registrados accederemos a una nueva página, para esto necesitamos:
-- Importar **router**
-- Empujar a la nueva página
-
-```js
-import router from '@/router'
-```
-```js
-router.push('/productos');
-```
-
-## TEMPLATE inciar sesión
-
-Creamos:
-
-- Navbar botón **Login**
-- Formulario, email y contraseña
-- Función login
-
-
-```html
-<template>
-    <div>
-        <Navbar/>
-        <div class="container my-4">
-  <form @submit.prevent="login( this.email, this.password )">  
-    <div class="input-group mb-3">
-    <span class="input-group-text">Correo</span>
-    <input v-model="email" 
-            type="email"
-            required="true"
-            class="form-control">
-    </div>
-    <!-- Familia -->
-    <div class="input-group mb-3">
-    <span class="input-group-text">Password</span>
-    <input v-model="password" 
-            type="password"
-            required="true" 
-            class="form-control">
-    </div>
-        <button type="submit" class="btn btn-primary">Registrar
-    </button>
-  </form>
-  </div> 
-    </div>
-</template>
-```
-
-## SCRIPT iniciar sesión
-
-Función **firebase signInWithEmailAndPassword**
-
-```js
-<script>
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../main"
-import Navbar from "../components/Navbar.vue"
-export default {
-    name: 'Login',
-    components: {
-        Navbar,
-    },
-    data() {
-        return {
-            email: '',
-            password: '',
-            errorMessage: ''
-        };
-    },
-    methods: {
-        login( email, password ) {
-            signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                alert('¡Sesión iniciada!');
-                // Signed in
-                const user = userCredential.user;
-                this.$router.push('/');
-                // ...
-                })
-            .catch((error) => {
+   methods: {
+     register(email, password) {
+        const auth = getAuth();
+        createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            const user = userCredential.user;
+            alert('¡Registrado!');
+        })
+        .catch((error) => {
             const errorCode = error.code;
             this.errorMessage = error.message;
             alert(this.errorMessage);
-            });
+            // ..
+        });
+      },        
+     login( email, password ) {
+       const auth = getAuth();
+        signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            alert('¡Sesión iniciada!');
+            // Signed in
+            const user = userCredential.user;
+            // ...
+            })
+        .catch((error) => {
+        const errorCode = error.code;
+        this.errorMessage = error.message;
+        alert(this.errorMessage);
+        });
         },
-    },
-};
+     signout () {
+       const auth = getAuth();
+      signOut(auth).then(() => {
+        alert('¡Sesión cerrada! Inicia sesión.');
+      }).catch((error) => {
+      });
+     }
+   }
+}
 </script>
+```
+
+## USUARIO LOG IN
+
+### onAuthStateChanged
+
+En el archivo **main.js** añade este código
+
+```js
+// Importa la funcion onAuthStateChanged
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+// Función 
+const auth = getAuth();
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    console.log(user)
+      const usuarioActivo ={
+        email: user.email,
+        uid: user.uid
+      }
+     store.dispatch('detectarUsuario', usuarioActivo)
+    // ...
+  } else {
+    console.log(user)
+    store.dispatch('detectarUsuario', user)
+    // User is signed out
+    // ...
+  } 
+});
+```
+## STORE
+
+### Actions / mutations / state/ getters
+
+Copia y pega en **/store/index.js**
+
+```js
+import { createStore } from 'vuex'
+
+export default createStore({
+  state: {
+    usuario: null,
+  },
+  mutations: {
+    setUsuario(state, payload){
+      state.usuario = payload
+    }
+  },
+  // Recibe datos de onAuthStateChanged (main.js)
+  actions: {
+    detectarUsuario({commit}, usuario){
+      commit('setUsuario', usuario)
+    }
+  },
+  // Devuelve true/false si existe un usuario
+  getters: {
+    existeUsuario(state){
+      if(state.usuario === null){
+        return false;
+      }else{
+        return true;
+      }
+    }
+  },
+  modules: {
+  }
+})
+```
+### ...mapGetters
+
+En el script:
+```js
+// Importamos mapGetters
+import { mapGetters } from 'vuex'
+// Añadimos en computed
+  computed: {
+    ...mapGetters(['existeUsuario'])
+  }
+```
+
+En el template del archvo ***Navbar.vue**
+
+En los botones:
+
+- Iniciar sesión añadimos **v-if="!existeUsuario"**
+- Cerrar sesión añadimos **v-if="existeUsuario"**
+- Registro añadimos **v-if="!existeUsuario"**
+
+```html
+<!-- Utilizamos v-if para mostrar/ocultar los botones --> 
+ v-if="!existeUsuario"
+```
+
+## MODIFICANDO LA BARRA DE NAVEGACIÓN
+
+Modifica la navegación cambiando los botones por:
+
+```html
+<!-- HOME -->
+<router-link class="nav-link active" aria-current="page" to="/">Home<router-link>
+<!-- ABOUT -->
+<router-link v-if="existeUsuario" class="nav-link active" aria-current="page" to="/about">About</router-link>
+```
+
+
+## RUTAS PROTEGIDAS
+
+### Router / requiresAuth
+
+En el archivo **/router/indes.js** añadimos el código:
+
+```js
+// Importamos auth
+import { getAuth } from "firebase/auth";
+// Añadimos el meta: a la ruta
+meta: {requiresAuth: true}
+// Incluimos la función
+router.beforeEach((to, from, next) => {
+  if(to.matched.some(record => record.meta.requiresAuth)){
+    const auth = getAuth();
+    const usuario = auth.currentUser;
+    console.log ('usuario desde router', usuario)
+    if(!usuario){
+      next({path: '/'})
+    }else{
+      next()
+    }
+  } else {
+    next()
+  }
+})
 ```

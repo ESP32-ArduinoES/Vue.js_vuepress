@@ -28,44 +28,14 @@ vue --version
 npm update -g @vue/cli
 ```
 
-### Opción 1
-
 4. Creando un proyecto 
 - Usando una interfaz gráfica
 
 ```c
 vue ui
 ```
-- A través de comandos
 
-```c
-vue create nombre_proyecto
-```
-
-### Opción 2
-
-4. Prototipo instantáneo
-vue serve y vue build
-
-```c
-npm install -g @vue/cli @vue/cli-service-global
-```
-
-5. Archivo App.vue
-
-```html
-<template>
-  <h1>Hola!</h1>
-</template>
-```
-
-6. Visualizarlo en un navegador
-
-```c
-vue serve
-```
-
-## Modificando/iniciando el proyecto
+## Instalando módulos Boostrap/Popper y Firestore
 
 1. Instala bootstrap
 
@@ -75,7 +45,7 @@ Instala [Bootstrap](https://getbootstrap.com/docs/5.0/getting-started/download/#
 npm i --save bootstrap@^5.1
 ```
 
-Instala también **Popper** en algunos componentes de Bootstrap es necesario
+2. Instala también **Popper** en algunos componentes de Bootstrap es necesario
 
 Necesita [Popper](https://getbootstrap.com/docs/5.0/getting-started/parcel/#install-bootstrap)
 
@@ -84,27 +54,14 @@ Instala [Popper](https://popper.js.org/)
 ```c
 npm i @popperjs/core 
 ```
-
-2. Copia en **main.js**
+3. Copia en **main.js**
 
 ```html
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 ```
 
-3. Cambiar nombre de conponente **HelloWorld** por **Navbar**
-
-Bootstrap [Navbar](https://getbootstrap.com/docs/5.1/components/navbar/)
-
-4. Bootstrap copia un **navbar**
-
-5. Modifica en **Home.vue** import, components y etiqueta **HelloWorld** por **Navbar** y elimina la imagen.
-
-6. Suprime en **App.vue** la navegación y los estilos
-
-### Firebase firestore
-
-7. Instalar **firebase**
+4. Instalar **firebase**
 
 Docuemtación [Firebase](https://firebase.google.com/docs/web/setup?authuser=0)
 
@@ -112,11 +69,27 @@ Docuemtación [Firebase](https://firebase.google.com/docs/web/setup?authuser=0)
 npm install firebase
 ```
 
+### Modificando el proyecto
+
+1. Cambiar nombre de conponente **HelloWorld** por **Navbar**
+
+Bootstrap [Navbar](https://getbootstrap.com/docs/5.1/components/navbar/)
+
+2. Bootstrap copia un **navbar** y pégalo en el nuevo componente
+
+3. Modifica en **Home.vue** import, components y etiqueta **HelloWorld** por **Navbar** y elimina la imagen.
+
+6. Suprime en **App.vue** la navegación y los estilos
+
+### Firebase firestore
+
+
+
 8. Abrir archivo **main.js** en la carpeta **src** y pegar
 
 Para iniciar el proyecto utiliza solo estas:
 
-```html
+```js
 import { initializeApp } from "firebase/app";
 import { getFirestore } from 'firebase/firestore/lite';
 
@@ -139,7 +112,7 @@ export { db };
 
 Así quedará al final
 
-```html
+```js
 import { initializeApp } from "firebase/app";
 import { getFirestore } from 'firebase/firestore/lite';
 import { getAuth } from "firebase/auth";
@@ -178,8 +151,8 @@ Vue.js [v-for](https://es.vuejs.org/v2/guide/list.html)
 
 ```html
 <template>
+  <Navbar/>
   <div class="container">
-    <Navbar/>
     <table class="table">
     <thead>
       <tr>
@@ -346,5 +319,8 @@ import { collection,
 Añade router.go a: agregarDato() y eliminarDato()
 
 ```js
+// Importa el router
+import router from '../router/index'
+// Añade en la función
 router.go('/')
 ```

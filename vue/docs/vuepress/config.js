@@ -37,34 +37,13 @@ module.exports = {
     editLinkText: '',
     lastUpdated: false,
     nav: [
-      {
-        text: 'Vue.js',
-        link: '/vue/'
-      },
-      {
-        text: 'Sintaxis',
-        link: '/sintaxis/'
-      },
-      {
-        text: 'CRUD',
-        link: '/crud/'
-      },
-      {
-        text: 'Auth',
-        link: '/auth/'
-      },
-      {
-        text: 'Storage',
-        link: '/storage/'
-      },
-      {
-        text: 'Vuex',
-        link: '/vuex/'
-      },
-      {
-        text: 'Canal Youtube',
-        link: 'https://youtu.be/dZ59MDPcrqo'
-      }
+      { text: 'Vue.js', link: '/vue/' },
+      { text: 'Auth', link: '/auth/' },
+      { text: 'Storage', link: '/storage/' },
+      { text: 'Sintaxis', link: '/sintaxis/' },
+      { text: 'CRUD', link: '/crud/' },
+      { text: 'Vuex', link: '/vuex/' },
+      { text: 'Canal Youtube', link: 'https://youtu.be/FAtC9YKy1Rk' }
     ],
     sidebar: 'auto'
   },
