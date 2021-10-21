@@ -16,13 +16,14 @@ En componentes **Navbar** añadimos los botones para abrir los modales después 
 <button type="button" class="btn btn-outline-primary mx-2" 
   data-bs-toggle="modal" 
   data-bs-target="#login">
-  Iniciar sesión
+  Log in
 </button> 
  <!-- Cerrar sesión -->   
 <button class="btn btn-outline-danger me-2"
   data-bs-toggle="modal" 
   data-bs-target="#login"
-  @click="signout">Cerrar sesión
+  @click="signout">
+  Log out
 </button>
  <!-- Regístrate --> 
 <button type="button" 
@@ -221,6 +222,7 @@ onAuthStateChanged(auth, (user) => {
         uid: user.uid
       }
      store.dispatch('detectarUsuario', usuarioActivo)
+     console.log(usuarioActivo)
     // ...
   } else {
     console.log(user)
@@ -299,7 +301,7 @@ Modifica la navegación cambiando los botones por:
 
 ```html
 <!-- HOME -->
-<router-link class="nav-link active" aria-current="page" to="/">Home<router-link>
+<router-link class="nav-link active" aria-current="page" to="/">Home</router-link>
 <!-- ABOUT -->
 <router-link v-if="existeUsuario" class="nav-link active" aria-current="page" to="/about">About</router-link>
 ```
@@ -315,7 +317,7 @@ En el archivo **/router/indes.js** añadimos el código:
 // Importamos auth
 import { getAuth } from "firebase/auth";
 // Añadimos el meta: a la ruta
-meta: {requiresAuth: true}
+meta: {requiresAuth: true},
 // Incluimos la función
 router.beforeEach((to, from, next) => {
   if(to.matched.some(record => record.meta.requiresAuth)){
